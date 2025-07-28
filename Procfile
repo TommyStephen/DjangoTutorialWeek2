@@ -1,0 +1,1 @@
+web: gunicorn week2.wsgi --log-file -
