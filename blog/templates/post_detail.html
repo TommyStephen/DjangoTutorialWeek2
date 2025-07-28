@@ -1,0 +1,16 @@
+<h1>{{ object.title }}</h1>
+<h4>ID:{{object.id}}</h4>
+<h4>Message:{{ object.body }}</h4>
+<h4>Category:{{ object.category.name }}</h4>
+<p><strong>Tags:</strong>
+    {% for tag in object.tags.all %}
+        {{ tag.name }}
+        {% if not forloop.last %}, {% endif %}
+    {% empty %}
+        No Tags
+    {% endfor %}
+</p>
+<h4>Created:{{object.created_at}}</h4>
+<a href="{% url 'post_edit' object.pk %}">Edit</a> |
+<a href="{% url 'post_delete' object.pk %}">Delete</a> |
+<a href="{% url 'post_list' %}">Back to Posts</a>

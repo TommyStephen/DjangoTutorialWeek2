@@ -1,0 +1,54 @@
+<h1>Blog Posts</h1>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+<!--    <a href="{% url 'post_list' %}" style="text-decoration: none; padding: 8px 16px; background-color: #007BFF; color: white; border-radius: 4px;">Reset</a>-->
+    <button type="submit"><a href="{% url 'post_list' %} " style="text-decoration: none" >Reset</a></button>
+
+</form>
+
+<table cellspacing="0" cellpadding="8" style="margin-top: 1em; border-collapse: collapse; width: 100%;">
+<thead>
+        <tr style="background-color: #f4f4f4; text-align: left;">
+            <th style="width: 20%;">ID</th>
+            <th style="width: 20%;">Title</th>
+            <th style="width: 20%;">Body</th>
+            <th style="width: 20%;">Created</th>
+            <th style="width: 20%;">Action</th>
+
+        </tr>
+    </thead>
+<tbody>
+ {% for post in object_list %}
+    <tr>
+
+        <td>{{post.id}}</td>
+        <td>{{post.title}}</td>
+        <td>{{post.body}}</td>
+        <td>{{post.created_at}}</td>
+        <td><a href="{% url 'post_detail' post.pk %}">post details</a></td>
+    </tr>
+ {% empty %}
+ <tr>No posts found</tr>
+{% endfor %}
+</tbody>
+</table>
+<a href="{% url 'post_new' %}">Add new post</a>
+
+<br><br><br>
+<div>
+    {% if is_paginated %}
+        <div>
+            {% if page_obj.has_previous %}
+                <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+            {% if page_obj.has_next %}
+                <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
